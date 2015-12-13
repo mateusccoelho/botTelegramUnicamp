@@ -12,9 +12,9 @@ import java.util.Scanner;
 
 public class RequestMaker {
 
-	HttpURLConnection connection;
-	URL url;
-	String token;
+	private HttpURLConnection connection;
+	private URL url;
+	private String token;
 	
 	RequestMaker(String tokenPath) {
 
@@ -42,11 +42,14 @@ public class RequestMaker {
 
 	}
 	
-	String doGet(String function) {
+	public String doGet(boolean isTelegram, String function) {
 		
-		String json = null, adress;
+		String content = null, adress;
 		
-		adress = "https://api.telegram.org/bot" + this.token + "/" + function;
+		if(isTelegram == true)
+			adress = "https://api.telegram.org/bot" + this.token + "/" + function;
+		else
+			adress = function;
 		
 		// Abre a conexao
 		try {
@@ -70,9 +73,9 @@ public class RequestMaker {
 					
 				// Verifica se o conteudo da stream eh nulo
 				if(s.hasNext() == true)
-					json = s.next();
+					content = s.next();
 				else
-					json = "";
+					content = "";
 				
 				is.close();
 				
@@ -84,11 +87,11 @@ public class RequestMaker {
 			e.printStackTrace();
 		}
 		
-		return json;
+		return content;
 		
 	}
 	
-	String doPost(String function) {
+	public String doPost(String function) {
 		
 		String json = null, adress;
 		adress = "https://api.telegram.org/bot" + this.token;

@@ -10,9 +10,6 @@ public class Main {
 
 	public static void main(String[] args) throws Exception {
 		
-		String helpMessage = "Você pode usar os comandos:\n/cardapio - Mostra o cardápio de hoje do RU.\n/tempo - Mostra o tempo em Barão Geraldo.";
-		String URLHelpMessage = URLEncoder.encode(helpMessage, "UTF-8");
-		
 		String path = "/home/mateus/Unicamp/Extras/unicampServicos/token.txt";
 		RequestMaker rm = new RequestMaker(path);
 		String funcao = "getUpdates";
