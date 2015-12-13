@@ -88,4 +88,12 @@ public class RequestMaker {
 		
 	}
 	
+	String doPost(String function) {
+		
+		String json = null, adress;
+		adress = "https://api.telegram.org/bot" + this.token;
+		
+		return json;
+	}
+	
 }
