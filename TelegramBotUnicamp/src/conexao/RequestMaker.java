@@ -16,7 +16,7 @@ public class RequestMaker {
 	private URL url;
 	private String token;
 	
-	RequestMaker(String tokenPath) {
+	public RequestMaker(String tokenPath) {
 
 		try {
 			FileInputStream fr = new FileInputStream(new File(tokenPath));
@@ -27,8 +27,6 @@ public class RequestMaker {
 				this.token = s.next();
 			else
 				this.token = "";
-			
-			System.out.println(this.token);
 			
 			try {
 				fr.close();
@@ -45,7 +43,7 @@ public class RequestMaker {
 	public String doGet(boolean isTelegram, String function) {
 		
 		String content = null, adress;
-		
+
 		if(isTelegram == true)
 			adress = "https://api.telegram.org/bot" + this.token + "/" + function;
 		else
@@ -69,7 +67,7 @@ public class RequestMaker {
 					
 				// Quebra o conteudo da stream de acordo com o token \\A, o qual na pratica
 				// divide todo o texto em uma soh palavra.
-				Scanner s = new Scanner(is).useDelimiter("\\A");
+				Scanner s = new Scanner(is, "ISO-8859-1").useDelimiter("\\A");
 					
 				// Verifica se o conteudo da stream eh nulo
 				if(s.hasNext() == true)

@@ -10,28 +10,18 @@ public class Main {
 
 	public static void main(String[] args) throws Exception {
 		
+		long updateOffset = 1;
 		String path = "/home/mateus/Unicamp/Extras/unicampServicos/token.txt";
 		RequestMaker rm = new RequestMaker(path);
-		String funcao = "getUpdates";
-		String jsonUpdates = rm.doGet(funcao);
-		System.out.println(jsonUpdates);
+		String funcao = "getUpdates?offset=" + updateOffset;
+		String jsonUpdates = rm.doGet(true, funcao);
 		
 		JSONObject updatesObj = new JSONObject(jsonUpdates);
-		if(updatesObj.getBoolean("ok") == false)
-			System.out.println("Requisicao falhou.");
-		else {
-			JSONArray updatesArray = updatesObj.getJSONArray("result");
-			if(updatesArray.length() == 0)
-				System.out.println("Sem updates.");
-			else {
-				JSONObject update = updatesArray.getJSONObject(0);
-				JSONObject message = update.getJSONObject("message");
-				if(message.getString("text").equalsIgnoreCase("/help")) {
-					funcao = "sendMessage?chat_id=" + message.getJSONObject("chat").getLong("id") + "&text=" + URLHelpMessage;
-					rm.doGet(funcao);
-				}
-			}
-		}
+		UpdatesHandler uh = new UpdatesHandler(rm);
+		boolean ok = uh.parseUpdates(updatesObj);
+		
+		JSONArray array = updatesObj.getJSONArray("result");
+		updateOffset = array.getJSONObject(array.length() - 1).getLong("update_id") + 1;
 	}
 
 }

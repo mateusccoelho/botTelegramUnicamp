@@ -6,10 +6,15 @@ import conexao.RequestMaker;
 
 public abstract class Command {
 
-	private RequestMaker rm;
+	protected RequestMaker rm;
+	protected String command;
 	
-	Command(RequestMaker rm) {
+	public Command(RequestMaker rm) {
 		this.rm = rm; 
+	}
+	
+	public String getType() {
+		return this.command;
 	}
 	
 	public abstract void doAction(JSONObject message);
