@@ -12,6 +12,7 @@ public class UpdatesHandler {
 	private RequestMaker rm;
 	private ArrayList <Command> commandsArray;
 	
+	/* Cria lista de comandos. */
 	public UpdatesHandler(RequestMaker rm) {
 		this.rm = rm;
 		commandsArray = new ArrayList <Command>();
@@ -21,6 +22,7 @@ public class UpdatesHandler {
 	
 	public boolean parseUpdates(JSONObject updatesObj) {
 		
+		/* Verifica se a requisicao foi feita com sucesso e se ha updates. */
 		if(updatesObj.getBoolean("ok") == false) {
 			System.out.println("Requisicao falhou.");
 			return false;
@@ -32,20 +34,16 @@ public class UpdatesHandler {
 				return false;
 			}
 			else {
-				
+				/* Percorre lista de updates procurando por comandos. */
 				for(int i = 0; i < updatesArray.length(); i++) {
-					JSONObject update = updatesArray.getJSONObject(i);
-					for(int j = 0; j < commandsArray.size(); j++) {
-						JSONObject message = update.getJSONObject("message");
-						// Protecao contra coisas que nao sejam texto.
-						if(message.has("text") == false)
-							continue;
-						else {
-							String messageText = message.getString("text");
-							if(messageText.charAt(0) != '/')
-								continue;
-							if(commandsArray.get(j).getType().equalsIgnoreCase(messageText));
-								commandsArray.get(j).doAction(message);
+					JSONObject message = updatesArray.getJSONObject(i).getJSONObject("message");
+					/* Procura mensagens com textos e "/", que representam comandos. */
+					if(message.has("text") == true) {
+						String messageText = message.getString("text");
+						if(messageText.charAt(0) == '/') {
+							for(int j = 0; j < commandsArray.size(); j++)
+								if(commandsArray.get(j).getType().equalsIgnoreCase(messageText))
+									commandsArray.get(j).doAction(message);
 						}
 					}
 				}

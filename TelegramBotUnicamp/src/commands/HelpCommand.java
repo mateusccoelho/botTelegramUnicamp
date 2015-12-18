@@ -19,7 +19,9 @@ public class HelpCommand extends Command {
 		String helpMessage = "Você pode usar os comandos:\n/cardapio - Mostra o cardápio de hoje do RU.\n/tempo - Mostra o tempo em Barão Geraldo.";
 		String URLHelpMessage = null;
 		try {
+			/* Converte a string para o formato UTF-8, que eh o padrao para URLs. */
 			URLHelpMessage = URLEncoder.encode(helpMessage, "UTF-8");
+			/* Monta a parte da URL que corresponde ao metodo de enviar mensagem. */
 			String funcao = "sendMessage?chat_id=" + message.getJSONObject("chat").getLong("id") + "&text=" + URLHelpMessage;
 			rm.doGet(true, funcao);
 		} catch (UnsupportedEncodingException e) {
