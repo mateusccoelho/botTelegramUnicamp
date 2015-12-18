@@ -17,7 +17,7 @@ public class Main {
 		String jsonUpdates = rm.doGet(true, funcao);
 		
 		JSONObject updatesObj = new JSONObject(jsonUpdates);
-		UpdatesHandler uh = new UpdatesHandler(rm);
+		UpdatesHandler uh = new UpdatesHandler(rm);x
 		boolean ok = uh.parseUpdates(updatesObj);
 		
 		JSONArray array = updatesObj.getJSONArray("result");
